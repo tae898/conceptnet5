@@ -1,79 +1,73 @@
-# ConceptNet
+# Running ConceptNet on Docker
 
+This repo was forked from [here](https://github.com/commonsense/conceptnet5).
 
-## Overview
+The original build process is outlined [here](https://github.com/commonsense/conceptnet5/wiki/Build-process).
 
-ConceptNet aims to give computers access to common-sense knowledge, the kind of
-information that ordinary people know but usually leave unstated.
+I tried to dockerize things as much as possible so that you can just pull the image and
+run it on your desired machine.
 
-ConceptNet is a semantic network that represents things that computers
-should know about the world, especially for the purpose of
-understanding text written by people. Its "concepts" are represented
-using words and phrases of many different natural language -- unlike
-similar projects, it's not limited to a single language such as
-English. It expresses over 13 million links between these concepts,
-and makes the whole data set available under a Creative Commons
-license.
+## Barebone Docker image
 
-Much of the current development of ConceptNet involves using it as an
-input for machine learning about the semantics of text. Its
-multilingual representation makes it particularly expressive, because
-the semantic overlaps and differences between languages are a useful
-signal that a learning system can learn from.
+1. Pull the latest image by
 
-ConceptNet grew out of Open Mind Common Sense, an early project for
-crowd-sourced knowledge, and expanded to cover many different
-languages through a collaboration with groups around the
-world. ConceptNet is cited in many research papers, and its public API
-gets over 50,000 hits per day.
+    ```sh
+    docker pull tae898/conceptnet5
+    ```
 
+    Check out the original [Dockerfile](./Dockerfile) of this image, if interested.  
 
-This Python package contains a toolset for building the ConceptNet 5
-knowledge graph, possibly with your own custom data, and it serves the
-HTML interface and JSON Web API for it.
+1. Run the docker container in detached mode. This will start `postgres` within.
 
-You don't need this package to simply access ConceptNet 5; see
-http://conceptnet.io for more information and a browsable Web
-interface with an API.
+    ```sh
+    docker run --name conceptnet5 --network host -d tae898/conceptnet5
+    ```
 
-Further documentation is available on the [ConceptNet wiki][].
+1. Open up zsh (or bash, whatever you prefer) in the container by running
 
-Licensing and attribution appear in `LICENSE.txt` and
-`DATA-CREDITS.md`.
+    ```sh
+    docker exec -it conceptnet5 zsh
+    ```
 
+1. Create a PostgreSQL database named conceptnet5 by running
 
-## Discussion groups
+    ```sh
+    createdb conceptnet5
+    ```
 
-If you're interested in using ConceptNet, please join the
-conceptnet-users Google group, for questions and occasional
-announcements: http://groups.google.com/group/conceptnet-users?hl=en
+1. Start the build by running
 
-For real-time discussion, ConceptNet also has a chat channel on
-Gitter: https://gitter.im/commonsense/conceptnet5
+    ```sh
+    ./build.sh
+    ```
 
+    This will take a long time since it has to download all the data.
+    You need at least 30 GB of available RAM, 300 GB of free disk space, and the time
+    and bandwidth to download 24 GB of raw data.
 
-## Installing and building ConceptNet
+## Full Docker image with data
 
-To be able to run all steps of the ConceptNet build process, you'll
-need a Unix command line (Ubuntu 16.04 works great), Python 3.5 or
-later, 30 GB of RAM, and some other dependencies. See the [build
-process][] on our wiki for instructions.
+First off, this image is huge. Make sure you have enough space in your disk.
 
-You may not need to build ConceptNet yourself! Try the [Web API][]
-first.
+This is image is made on top of the barbone one (i.e., `tae898/conceptnet5`) with every
+necessary comand and data included. This was made so that you can just use it as one-go.
 
-[build process]: https://github.com/commonsense/conceptnet5/wiki/Build-process
-[Web API]: https://github.com/commonsense/conceptnet5/wiki/API
-[ConceptNet wiki]: https://github.com/commonsense/conceptnet5/wiki
+1. Pull the latest image by
 
+    ```sh
+    docker pull tae898/conceptnet5-full
+    ```
 
-## Testing
+## Contributing
 
-Run `pytest` to test the ConceptNet libraries and a small version of
-the build process.
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-Run `pytest --quick` to re-run the tests more quickly, with the
-assumption that the small test database has already been built.
+1. Fork the Project
+1. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+1. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+1. Push to the Branch (`git push origin feature/AmazingFeature`)
+1. Open a Pull Request
 
-Run `pytest --fulldb` to run additional tests on the fully built
-ConceptNet database.
+## Authors
+
+- [Taewoon Kim](https://taewoonkim.com/)
