@@ -8,7 +8,7 @@ I tried to dockerize things as much as possible so that you can just pull the im
 run it on your desired machine.
 
 
-## Full Docker image with data (222GB)
+## Full Docker image with data (1.02GB compressed size, 2.488GB uncompressed size)
 
 First off, this image is huge. Make sure you have enough space in your disk.
 
@@ -22,7 +22,7 @@ necessary comand and data included. This was made so that you can just use it as
     ```
 
 
-## Barebone Docker image (1GB)
+## Barebone Docker image (1.02GB compressed size, 2.488GB uncompressed size)
 
 1. Pull the latest image by
 
