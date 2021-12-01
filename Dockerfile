@@ -10,7 +10,7 @@ ENV POSTGRES_DB root
 RUN apt update
 RUN apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev -y
 RUN apt install libreadline-dev libffi-dev curl libbz2-dev libsqlite3-dev git unzip -y
-RUN apt install wget libhdf5-dev libmecab-dev mecab-ipadic-utf8 liblzma-dev lzma -y
+RUN apt install wget libhdf5-dev libmecab-dev mecab-ipadic-utf8 liblzma-dev lzma vim -y
 
 # Change the default shell to `zsh` since I like it.
 RUN apt install watch htop zsh -y
@@ -29,10 +29,9 @@ RUN apt install python3-pip python3-dev  -y
 
 # Install conceptnet
 WORKDIR "/"
-RUN git clone https://github.com/commonsense/conceptnet5.git
+RUN git clone --single-branch --branch develop https://github.com/tae898/conceptnet5.git
 WORKDIR "/conceptnet5"
 # modify `build.sh` in place to speed up processing
-RUN sed -i -e 's/-j 2/-j$(nproc) /g' build.sh
 RUN pip3 install --upgrade pip
 RUN pip3 install wheel ipadic
 RUN pip3 install -e '.[vectors]'

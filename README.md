@@ -7,22 +7,7 @@ The original build process is outlined [here](https://github.com/commonsense/con
 I tried to dockerize things as much as possible so that you can just pull the image and
 run it on your desired machine.
 
-
-## Full Docker image with data (1.02GB compressed size, 2.488GB uncompressed size)
-
-First off, this image is huge. Make sure you have enough space in your disk.
-
-This is image is made on top of the barbone one (i.e., `tae898/conceptnet5`) with every
-necessary comand and data included. This was made so that you can just use it as one-go.
-
-1. Pull the latest image by
-
-    ```sh
-    docker pull tae898/conceptnet5-full
-    ```
-
-
-## Barebone Docker image (1.02GB compressed size, 2.488GB uncompressed size)
+## Docker image (1.02GB compressed size, 2.488GB uncompressed size)
 
 1. Pull the latest image by
 
@@ -59,55 +44,6 @@ necessary comand and data included. This was made so that you can just use it as
     This will take a long time since it has to download all the data.
     You need at least 30 GB of available RAM, 300 GB of free disk space, and the time
     and bandwidth to download 24 GB of raw data.
-
-1. At this point (30-Nov-2021), some changes have to be made to the master branch
-    ```sh
-    diff --git a/build.sh b/build.sh
-    index 65bd85c..c721192 100755
-    --- a/build.sh
-    +++ b/build.sh
-    @@ -30,4 +30,4 @@ check_db () {
-    check_disk_space
-    pip3 install -e '.[vectors]'
-    check_db
-    -snakemake --resources 'ram=30' -j 2 $@
-    +snakemake --resources 'ram=30' -j$(nproc)  $@
-    diff --git a/conceptnet5/db/query.py b/conceptnet5/db/query.py
-    index 86fe021..afca7f6 100644
-    --- a/conceptnet5/db/query.py
-    +++ b/conceptnet5/db/query.py
-    @@ -125,7 +125,7 @@ class AssertionFinder(object):
-            self.dbname = dbname
-    
-        @property
-    -    def connection():
-    +    def connection(self):
-            # See https://www.psycopg.org/docs/connection.html#connection.closed
-            if self._connection is None or self._connection.closed > 0:
-                self._connection = get_db_connection(self.dbname)
-    diff --git a/web/conceptnet_web/api.py b/web/conceptnet_web/api.py
-    index 3392105..9b7d322 100644
-    --- a/web/conceptnet_web/api.py
-    +++ b/web/conceptnet_web/api.py
-    @@ -6,6 +6,7 @@ import os
-    import flask
-    from flask_cors import CORS
-    from flask_limiter import Limiter
-    +from flask_limiter.util import get_remote_address
-    
-    from conceptnet5 import api as responses
-    from conceptnet5.api import VALID_KEYS, error
-    @@ -37,7 +38,8 @@ app.config.update({
-    for filter_name, filter_func in FILTERS.items():
-        app.jinja_env.filters[filter_name] = filter_func
-    app.jinja_env.add_extension('jinja2_highlight.HighlightExtension')
-    -limiter = Limiter(app, global_limits=["600 per minute", "6000 per hour"])
-    +limiter = Limiter(app, key_func=get_remote_address, 
-    +                  global_limits=["600 per minute", "6000 per hour"])
-    CORS(app)
-    try_configuring_sentry(app)
-    application = app  # for uWSGI
-    ```
 
 1. Run the web server
 
