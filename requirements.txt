@@ -1,0 +1,5 @@
+requests
+black
+isort
+flake8
+mdformat
