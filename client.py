@@ -33,8 +33,9 @@ def main(server_address: str, object_: str) -> None:
     Args
     ----
     server_address: server address
-    """
+    object_: head of interest
 
+    """
     query = f"{server_address}/query?start=/c/en/{object_}&rel=/r/AtLocation"
     response = requests.get(query).json()
     print(response)
