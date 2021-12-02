@@ -1,5 +1,7 @@
 # Running ConceptNet on Docker
 
+Watch the tutorial video at [here](https://youtu.be/UAM1XwbpOZI).
+
 This repo was forked from [here](https://github.com/commonsense/conceptnet5).
 
 The original build process is outlined [here](https://github.com/commonsense/conceptnet5/wiki/Build-process).
