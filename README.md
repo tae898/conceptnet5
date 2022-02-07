@@ -1,4 +1,6 @@
-# Running ConceptNet on Docker
+# Running ConceptNet Locally on Docker
+
+[![DOI](https://zenodo.org/badge/432499469.svg)](https://zenodo.org/badge/latestdoi/432499469)
 
 Watch the tutorial video at [here](https://youtu.be/UAM1XwbpOZI).
 
