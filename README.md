@@ -1,5 +1,7 @@
 # Running ConceptNet Locally on Docker
 
+[![DOI](https://zenodo.org/badge/432499469.svg)](https://zenodo.org/badge/latestdoi/432499469)
+
 Watch the tutorial video at [here](https://youtu.be/UAM1XwbpOZI).
 
 This repo was forked from [here](https://github.com/commonsense/conceptnet5).
@@ -96,10 +98,6 @@ run it on your desired machine.
 ## Troubleshooting
 
 The best way to find and solve your problems is to see in the github issue tab. If you can't find what you want, feel free to raise an issue. We are pretty responsive.
-
-## Cite our work
-
-[![DOI](https://zenodo.org/badge/432499469.svg)](https://zenodo.org/badge/latestdoi/432499469)
 
 ## Contributing
 
